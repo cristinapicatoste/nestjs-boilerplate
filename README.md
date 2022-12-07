@@ -76,3 +76,8 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 
 Nest is [MIT licensed](LICENSE).
 # nestjs-boilerplate
+
+
+## Documentation checked
+
+- [Migrations fix](https://stackoverflow.com/questions/71740574/cannot-add-cli-parameters-to-datasourceoptions-in-typeorm)
