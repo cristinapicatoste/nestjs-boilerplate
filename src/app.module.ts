@@ -9,9 +9,10 @@ import { LocalStrategy } from './auth/strategies/local.strategy';
 import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthConfiguration } from './auth/auth.configuration';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AuthController } from './auth/auth.controller';
 import { PassportModule } from '@nestjs/passport';
+import { typeormOptions } from './typeormconfig';
 
 dotenv.config({ path: '.env.dev' });
 
@@ -22,31 +23,19 @@ dotenv.config({ path: '.env.dev' });
       secret: process.env.JWT_KEY,
       signOptions: { expiresIn: process.env.AUTH_ACCESS_EXPIRE },
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: process.env.POSTGRES_HOST, // 'localhost' o 127.0.0.1,
-      port: parseInt(process.env.POSTGRES_PORT), // 5432,
-      username: process.env.POSTGRES_USER, 
-      password: process.env.POSTGRES_PASSWORD,
-      database: process.env.POSTGRES_DB,
-      autoLoadEntities: true,
-      synchronize: true, // only if we don't have migrations
-    }),
-    TypeOrmModule.forFeature([
-      User,
-    ]),
+    ConfigModule.forRoot(),
+    TypeOrmModule.forRoot(typeormOptions),
+    TypeOrmModule.forFeature([User])
   ],
-  controllers: [
-    UserController,
-    AuthController
-  ],
+  exports: [TypeOrmModule],
+  controllers: [UserController, AuthController],
   providers: [
     UserService,
-    AuthService, 
+    AuthService,
     AuthConfiguration,
     ConfigService,
-    LocalStrategy, 
-    JwtStrategy
+    LocalStrategy,
+    JwtStrategy,
   ],
 })
 export class AppModule {}

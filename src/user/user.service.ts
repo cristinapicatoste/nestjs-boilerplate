@@ -4,11 +4,12 @@ import { TypeOrmCrudService } from "@nestjsx/crud-typeorm";
 import { User } from './user.entity';
 import { AuthCredentialsDto } from '../auth/dto/authCredentials.dto';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<User> {
-  constructor(@InjectRepository(User) repo) {
-    super(repo);
+  constructor(@InjectRepository(User) private userRepository: Repository<User>) {
+    super(userRepository);
   }
 
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<any> {

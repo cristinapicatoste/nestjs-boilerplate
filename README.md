@@ -45,6 +45,10 @@ $ npm run start:dev
 $ npm run start:prod
 ```
 
+## Migrations
+
+``` typeorm migration:create -n UrlMigration -d src/migrations ```
+
 ## Test
 
 ```bash
