@@ -17,9 +17,9 @@ export class UserService extends TypeOrmCrudService<User> {
     const salt = await bcrypt.genSalt();
     const hashedPassword = await bcrypt.hash(credentials, salt);
     console.log(salt, hashedPassword);
-    const user = this.repo.create({ email, credentials: hashedPassword });    
+    const user = this.userRepository.create({ email, credentials: hashedPassword });    
     try {
-      await this.repo.save(user);
+      await this.userRepository.save(user);
     } catch (err) {
       throw new HttpException('Error', err);
     }
